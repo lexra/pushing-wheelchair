@@ -1,0 +1,6 @@
+classes=80
+train=/work/Yolo-Fastest/pushing-wheehchair/train.txt
+valid=/work/Yolo-Fastest/pushing-wheehchair/test.txt
+names=/work/Yolo-Fastest/pushing-wheehchair/cfg/yolo-wheelchair.names
+backup=/work/Yolo-Fastest/pushing-wheehchair/backup
+eval=coco
