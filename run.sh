@@ -44,7 +44,7 @@ for J in $(ls images/train | grep txt | awk -F '.txt' '{print $1}'); do echo "$(
 for J in $(ls images/test | grep txt | awk -F '.txt' '{print $1}'); do echo "$(pwd)/images/test/${J}.png" ; done | tee test.txt
 
 ##############################
-sed "s|/work/Yolo-Fastest/pushing-wheehchair|`pwd`|" -i cfg/${NAME}.data
+sed "s|/work/himax/Yolo-Fastest/pushing-wheelchair|`pwd`|" -i cfg/${NAME}.data
 
 ##############################
 [ "$TERM" == "xterm" ] && GPUS="${GPUS} -dont_show"
