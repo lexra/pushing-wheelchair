@@ -13,3 +13,6 @@
 	cfg/yolo-wheelchair.cfg \
 	backup/yolo-wheelchair_final.weights pixmaps/push_wheelchair.jpg -dont_show
 ```
+
+![image](https://github.com/lexra/pushing-wheelchair/assets/33512027/9b607f43-0fc5-4116-b1ac-813a56e29d41)
+
