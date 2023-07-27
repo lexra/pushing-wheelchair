@@ -1,5 +1,11 @@
 #!/bin/bash -e
 
+##############################
+RED='\033[0;31m'
+YELLOW='\033[1;33m'
+GREEN='\033[0;32m'
+NC='\033[0m'
+
 NAME=yolo-wheelchair
 CFG="cfg/${NAME}.cfg"
 GPUS="-gpus 0"
@@ -64,11 +70,12 @@ if [ -e ../keras-YOLOv3-model-set/tools/model_converter/fastest_1.1_160/convert.
 fi
 
 ##############################
-../darknet detector map cfg/${NAME}.data cfg/${NAME}.cfg backup/${NAME}_final.weights -iou_thresh 0.5
+../darknet detector map cfg/${NAME}.data cfg/${NAME}.cfg backup/${NAME}_final.weights -iou_thresh 0.5 | grep -v '\-points'
 
 ##############################
 # g++ tests/opencv-camera/opencv-camera.cpp -o tests/opencv-camera/opencv-camera `pkg-config --cflags --libs opencv4`
 echo ""
-echo "../darknet detector test cfg/yolo-wheelchair.data cfg/yolo-wheelchair.cfg backup/yolo-wheelchair_final.weights pixmaps/push_wheelchair.jpg -ext_output -dont_show"
+echo -e "${YELLOW} Detector Test: ${NC}"
+echo -e "${YELLOW} ../darknet detector test cfg/yolo-wheelchair.data cfg/yolo-wheelchair.cfg backup/yolo-wheelchair_final.weights pixmaps/push_wheelchair.jpg -ext_output -dont_show ${NC}"
 echo ""
 exit 0
