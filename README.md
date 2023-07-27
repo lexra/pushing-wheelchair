@@ -56,10 +56,32 @@ for filepath in tqdm(yaml_list):
     os.remove(filepath)
 ```
 
-### Loss and mAP chart
+### Loss and mAP
+
+#### Chart
 
 <img src=https://github.com/lexra/pushing-wheelchair/assets/33512027/b328b9fa-5810-4a72-86a1-10fc212b2d52 width=640 />
 
+#### mAP@0.50
+
+```bash
+ calculation mAP (mean average precision)...
+ Detection layer: 121 - type = 28
+ Detection layer: 130 - type = 28
+1804
+ detections_count = 12523, unique_truth_count = 4502
+class_id = 0, name = person, ap = 62.63%         (TP = 1441, FP = 1349)
+class_id = 1, name = wheelchair, ap = 3.20%      (TP = 15, FP = 101)
+class_id = 2, name = push_wheelchair, ap = 96.15%        (TP = 326, FP = 163)
+class_id = 3, name = crutches, ap = 93.29%       (TP = 628, FP = 290)
+class_id = 4, name = walking_frame, ap = 78.55%          (TP = 710, FP = 314)
+
+ for conf_thresh = 0.25, precision = 0.58, recall = 0.69, F1-score = 0.63
+ for conf_thresh = 0.25, TP = 3120, FP = 2217, FN = 1382, average IoU = 46.91 %
+
+ IoU threshold = 50 %, used Area-Under-Curve for each unique Recall
+ mean average precision (mAP@0.50) = 0.667631, or 66.76 %
+```
 
 ### Detector test
 
