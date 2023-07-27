@@ -266,4 +266,7 @@ https://www.ccoderun.ca/programming/darknet_faq
 https://github.com/Tianxiaomo/pytorch-YOLOv4
 ```
 
+```bash
+https://newjerseystyle.github.io/en/2021/YoloV5-Wheelchair-detector/
+```
 
