@@ -64,7 +64,7 @@ if [ -e ../keras-YOLOv3-model-set/tools/model_converter/fastest_1.1_160/convert.
 fi
 
 ##############################
-# g++ tests/opencv-camera/opencv-camera.cpp -o tests/opencv-camera/opencv-camera `pkg-config --cflags --libs opencv`
+# g++ tests/opencv-camera/opencv-camera.cpp -o tests/opencv-camera/opencv-camera `pkg-config --cflags --libs opencv4`
 echo ""
 echo "../darknet detector test cfg/yolo-wheelchair.data cfg/yolo-wheelchair.cfg backup/yolo-wheelchair_final.weights pixmaps/push_wheelchair.jpg -dont_show"
 echo ""
