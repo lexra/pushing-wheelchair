@@ -259,6 +259,10 @@ https://github.com/hank-ai/darknet
 ```
 
 ```bash
+https://www.ccoderun.ca/programming/darknet_faq
+```
+
+```bash
 https://github.com/Tianxiaomo/pytorch-YOLOv4
 ```
 
