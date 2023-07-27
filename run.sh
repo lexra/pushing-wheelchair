@@ -19,7 +19,6 @@ mkdir -p labels
 unzip -o Annotations_RGB.zip -d labels | pv -l >/dev/null
 unzip -o Annotations_RGB_TestSet2.zip -d labels | pv -l >/dev/null
 unzip -o Images_RGB.zip -d images | pv -l >/dev/null
-#unzip -o Images_RGB.zip -d images
 
 sudo chmod -x images/Images_RGB
 find images/Images_RGB -name "*.png" | xargs sudo chmod 666
@@ -57,15 +56,15 @@ mkdir -p backup
 ##############################
 if [ -e ../keras-YOLOv3-model-set/tools/model_converter/fastest_1.1_160/convert.py ]; then
 	python3 ../keras-YOLOv3-model-set/tools/model_converter/fastest_1.1_160/convert.py \
-                --config_path cfg/${NAME}.cfg \
-                --weights_path backup/${NAME}_final.weights \
-                --output_path backup/${NAME}.h5
-        python3 ../keras-YOLOv3-model-set/tools/model_converter/fastest_1.1_160/post_train_quant_convert_demo.py --keras_model_file backup/${NAME}.h5 --annotation_file train.txt --output_file backup/${NAME}.tflite
+		--config_path cfg/${NAME}.cfg \
+		--weights_path backup/${NAME}_final.weights \
+		--output_path backup/${NAME}.h5
+	python3 ../keras-YOLOv3-model-set/tools/model_converter/fastest_1.1_160/post_train_quant_convert_demo.py --keras_model_file backup/${NAME}.h5 --annotation_file train.txt --output_file backup/${NAME}.tflite
 	xxd -i backup/${NAME}.tflite > backup/${NAME}-$(date +'%Y%m%d').cc
 fi
 
 ##############################
-#ls -l backup/${NAME}*
 echo ""
 echo "../darknet detector test cfg/yolo-wheelchair.data cfg/yolo-wheelchair.cfg backup/yolo-wheelchair_final.weights pixmaps/push_wheelchair.jpg -dont_show"
+echo ""
 exit 0
