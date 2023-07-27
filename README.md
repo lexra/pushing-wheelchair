@@ -254,8 +254,12 @@ wheelchair: 57% (left_x:  142   top_y:  100   width:  167   height:  311)
 
 ### Using Darknet
 
-```
+```bash
 https://github.com/hank-ai/darknet
+```
+
+```bash
+https://github.com/Tianxiaomo/pytorch-YOLOv4
 ```
 
 
