@@ -51,10 +51,15 @@ H=`cat cfg/yolo-wheelchair.cfg | grep height | awk -F '=' '{print $2}'`
 
 if [ 1 -eq `cat cfg/${NAME}.cfg | grep channels | awk -F '=' '{print $2}'` ]; then
 	pushd images/train
-	NO=0; for N in `ls *.txt | awk -F '.txt' '{print $1}'`; do NO=`echo ${NO}+1 | bc`; printf "TRAIN.%07d:\t" ${NO}; convert ${N}.png -colorspace gray tmp.png && mv -fv tmp.png ${N}.png ; done
+	for N in `ls *.txt | awk -F '.txt' '{print $1}'`; do echo -n "." ; (convert ${N}.png -colorspace gray ${N}_tmp.png &) ; done
+	wait
+	for N in `ls *.txt | awk -F '.txt' '{print $1}'`; do mv -fv ${N}_tmp.png ${N}.png ; done
 	popd
+
 	pushd images/test
-	NO=0; for N in `ls *.txt | awk -F '.txt' '{print $1}'`; do NO=`echo ${NO}+1 | bc`; printf "TEST.%07d:\t" ${NO}; convert ${N}.png -colorspace gray tmp.png && mv -fv tmp.png ${N}.png ; done
+	for N in `ls *.txt | awk -F '.txt' '{print $1}'`; do echo -n "." ; (convert ${N}.png -colorspace gray ${N}_tmp.png &) ; done
+	wait
+	for N in `ls *.txt | awk -F '.txt' '{print $1}'`; do mv -fv ${N}_tmp.png ${N}.png ; done
 	popd
 fi
 
