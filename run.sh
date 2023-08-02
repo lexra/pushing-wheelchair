@@ -41,8 +41,22 @@ cp -Rpf labels/train/*.txt images/train
 mkdir -p images/test
 cp -Rpf labels/test/*.txt images/test
 for P in `ls labels/test | awk -F '.txt' '{print $1}'`; do
-	cp -Rpf images/train/${P}.png images/test
+	#cp -Rpf images/train/${P}.png images/test
+	mv -f images/train/${P}.png images/test
 done
+
+##############################
+W=`cat cfg/yolo-wheelchair.cfg | grep width | awk -F '=' '{print $2}'`
+H=`cat cfg/yolo-wheelchair.cfg | grep height | awk -F '=' '{print $2}'`
+
+if [ 1 -eq `cat cfg/${NAME}.cfg | grep channels | awk -F '=' '{print $2}'` ]; then
+	pushd images/train
+	for N in `ls *.txt | awk -F '.txt' '{print $1}'`; do convert ${N}.png -colorspace gray tmp.png && mv -fv tmp.png ${N}.png ; done
+	popd
+	pushd images/test
+	for N in `ls *.txt | awk -F '.txt' '{print $1}'`; do convert ${N}.png -colorspace gray tmp.png && mv -fv tmp.png ${N}.png ; done
+	popd
+fi
 
 ##############################
 for J in $(ls images/train | grep txt | awk -F '.txt' '{print $1}'); do echo "$(pwd)/images/train/${J}.png" ; done | tee train.txt
@@ -61,10 +75,14 @@ mkdir -p backup
 
 ##############################
 if [ -e ../keras-YOLOv3-model-set/tools/model_converter/fastest_1.1_160/convert.py ]; then
+	git -C ../keras-YOLOv3-model-set checkout tools/model_converter/fastest_1.1_160/post_train_quant_convert_demo.py
+	sed "s|model_input_shape = \"160x160\"|model_input_shape = \"${W}x${H}\"|" -i ../keras-YOLOv3-model-set/tools/model_converter/fastest_1.1_160/post_train_quant_convert_demo.py
+
 	python3 ../keras-YOLOv3-model-set/tools/model_converter/fastest_1.1_160/convert.py \
 		--config_path cfg/${NAME}.cfg \
-		--weights_path backup/${NAME}_final.weights \
+		--weights_path backup/${NAME}_best.weights \
 		--output_path backup/${NAME}.h5
+
 	python3 ../keras-YOLOv3-model-set/tools/model_converter/fastest_1.1_160/post_train_quant_convert_demo.py --keras_model_file backup/${NAME}.h5 --annotation_file train.txt --output_file backup/${NAME}.tflite
 	xxd -i backup/${NAME}.tflite > backup/${NAME}-$(date +'%Y%m%d').cc
 fi
