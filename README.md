@@ -59,22 +59,37 @@ for filepath in tqdm(yaml_list):
 #### mAP@0.50
 
 ```bash
+[yolo] params: iou loss: ciou (4), iou_norm: 0.07, obj_norm: 1.00, cls_norm: 1.00, delta_norm: 1.00, scale_x_y: 1.00
+Total BFLOPS 0.219
+avg_outputs = 60902
+ Allocate additional workspace_size = 134.22 MB
+Loading weights from backup/yolo-wheelchair_best.weights...net.optimized_memory = 0
+mini_batch = 1, batch = 4, time_steps = 1, train = 0
+Create CUDA-stream - 0
+ Create cudnn-handle 0
+nms_kind: greedynms (1), beta = 0.600000
+nms_kind: greedynms (1), beta = 0.600000
+Done! Loaded 131 layers from weights-file
+1804
+Total Detection Time: 3 Seconds
+ seen 64, trained: 11853 K-images (185 Kilo-batches_64)
+
  calculation mAP (mean average precision)...
  Detection layer: 121 - type = 28
  Detection layer: 130 - type = 28
-1804
- detections_count = 12523, unique_truth_count = 4502
-class_id = 0, name = person, ap = 62.63%         (TP = 1441, FP = 1349)
-class_id = 1, name = wheelchair, ap = 3.20%      (TP = 15, FP = 101)
-class_id = 2, name = push_wheelchair, ap = 96.15%        (TP = 326, FP = 163)
-class_id = 3, name = crutches, ap = 93.29%       (TP = 628, FP = 290)
-class_id = 4, name = walking_frame, ap = 78.55%          (TP = 710, FP = 314)
 
- for conf_thresh = 0.25, precision = 0.58, recall = 0.69, F1-score = 0.63
- for conf_thresh = 0.25, TP = 3120, FP = 2217, FN = 1382, average IoU = 46.91 %
+ detections_count = 12923, unique_truth_count = 4502
+class_id = 0, name = person, ap = 76.12%         (TP = 1559, FP = 370)
+class_id = 1, name = wheelchair, ap = 34.99%     (TP = 135, FP = 248)
+class_id = 2, name = push_wheelchair, ap = 98.75%        (TP = 334, FP = 239)
+class_id = 3, name = crutches, ap = 92.90%       (TP = 630, FP = 296)
+class_id = 4, name = walking_frame, ap = 85.26%          (TP = 778, FP = 136)
+
+ for conf_thresh = 0.25, precision = 0.73, recall = 0.76, F1-score = 0.74
+ for conf_thresh = 0.25, TP = 3436, FP = 1289, FN = 1066, average IoU = 59.43 %
 
  IoU threshold = 50 %, used Area-Under-Curve for each unique Recall
- mean average precision (mAP@0.50) = 0.667631, or 66.76 %
+ mean average precision (mAP@0.50) = 0.776039, or 77.60 %
 ```
 
 ### Detector test
