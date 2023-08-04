@@ -6,10 +6,14 @@ YELLOW='\033[1;33m'
 GREEN='\033[0;32m'
 NC='\033[0m'
 
+##############################
 NAME=yolo-wheelchair
 CFG="cfg/${NAME}.cfg"
 GPUS="-gpus 0"
 WEIGHTS=""
+
+INPUT_W=$(cat cfg/yolo-wheelchair.cfg | grep width | awk -F '=' '{print $2}')
+INPUT_H=$(cat cfg/yolo-wheelchair.cfg | grep height | awk -F '=' '{print $2}')
 
 ##############################
 if [ ! -e Images_RGB.zip ]; then
@@ -38,16 +42,8 @@ python3 yaml2yolo.py
 cp -Rpf labels/train/*.txt images/train
 
 ##############################
-mkdir -p images/test
-cp -Rpf labels/test/*.txt images/test
-for P in `ls labels/test | awk -F '.txt' '{print $1}'`; do
-	#cp -Rpf images/train/${P}.png images/test
-	mv -f images/train/${P}.png images/test
-done
-
-##############################
-W=`cat cfg/yolo-wheelchair.cfg | grep width | awk -F '=' '{print $2}'`
-H=`cat cfg/yolo-wheelchair.cfg | grep height | awk -F '=' '{print $2}'`
+mkdir -p images/test && cp -Rpf labels/test/*.txt images/test
+for P in `ls labels/test | awk -F '.txt' '{print $1}'`; do mv -f images/train/${P}.png images/test ; done
 
 if [ 1 -eq `cat cfg/${NAME}.cfg | grep channels | awk -F '=' '{print $2}'` ]; then
 	pushd images/train
@@ -80,20 +76,23 @@ mkdir -p backup
 
 ##############################
 if [ -e ../keras-YOLOv3-model-set/tools/model_converter/fastest_1.1_160/convert.py ]; then
-	git -C ../keras-YOLOv3-model-set checkout tools/model_converter/fastest_1.1_160/post_train_quant_convert_demo.py
-	sed "s|model_input_shape = \"160x160\"|model_input_shape = \"${W}x${H}\"|" -i ../keras-YOLOv3-model-set/tools/model_converter/fastest_1.1_160/post_train_quant_convert_demo.py
-
+	git -C ../keras-YOLOv3-model-set checkout \
+		tools/model_converter/fastest_1.1_160/post_train_quant_convert_demo.py
+	sed "s|model_input_shape = \"160x160\"|model_input_shape = \"${INPUT_W}x${INPUT_H}\"|" \
+		-i ../keras-YOLOv3-model-set/tools/model_converter/fastest_1.1_160/post_train_quant_convert_demo.py
 	python3 ../keras-YOLOv3-model-set/tools/model_converter/fastest_1.1_160/convert.py \
 		--config_path cfg/${NAME}.cfg \
 		--weights_path backup/${NAME}_best.weights \
 		--output_path backup/${NAME}.h5
-
-	python3 ../keras-YOLOv3-model-set/tools/model_converter/fastest_1.1_160/post_train_quant_convert_demo.py --keras_model_file backup/${NAME}.h5 --annotation_file train.txt --output_file backup/${NAME}.tflite
+	python3 ../keras-YOLOv3-model-set/tools/model_converter/fastest_1.1_160/post_train_quant_convert_demo.py \
+		--keras_model_file backup/${NAME}.h5 \
+		--annotation_file train.txt --output_file \
+		backup/${NAME}.tflite
 	xxd -i backup/${NAME}.tflite > backup/${NAME}-$(date +'%Y%m%d').cc
 fi
 
 ##############################
-../darknet detector map cfg/${NAME}.data cfg/${NAME}.cfg backup/${NAME}_final.weights -iou_thresh 0.5 | grep -v '\-points'
+../darknet detector map cfg/${NAME}.data cfg/${NAME}.cfg backup/${NAME}_best.weights -iou_thresh 0.5 | grep -v '\-points'
 
 ##############################
 # g++ tests/opencv-camera/opencv-camera.cpp -o tests/opencv-camera/opencv-camera `pkg-config --cflags --libs opencv4`
