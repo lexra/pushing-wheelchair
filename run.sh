@@ -82,7 +82,7 @@ if [ -e ../keras-YOLOv3-model-set/tools/model_converter/fastest_1.1_160/convert.
 		-i ../keras-YOLOv3-model-set/tools/model_converter/fastest_1.1_160/post_train_quant_convert_demo.py
 	python3 ../keras-YOLOv3-model-set/tools/model_converter/fastest_1.1_160/convert.py \
 		--config_path cfg/${NAME}.cfg \
-		--weights_path backup/${NAME}_best.weights \
+		--weights_path backup/${NAME}_final.weights \
 		--output_path backup/${NAME}.h5
 	python3 ../keras-YOLOv3-model-set/tools/model_converter/fastest_1.1_160/post_train_quant_convert_demo.py \
 		--keras_model_file backup/${NAME}.h5 \
@@ -92,7 +92,7 @@ if [ -e ../keras-YOLOv3-model-set/tools/model_converter/fastest_1.1_160/convert.
 fi
 
 ##############################
-../darknet detector map cfg/${NAME}.data cfg/${NAME}.cfg backup/${NAME}_best.weights -iou_thresh 0.5 | grep -v '\-points'
+../darknet detector map cfg/${NAME}.data cfg/${NAME}.cfg backup/${NAME}_final.weights -iou_thresh 0.5 | grep -v '\-points'
 
 ##############################
 # g++ tests/opencv-camera/opencv-camera.cpp -o tests/opencv-camera/opencv-camera `pkg-config --cflags --libs opencv4`
