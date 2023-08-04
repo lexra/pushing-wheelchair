@@ -54,7 +54,7 @@ for filepath in tqdm(yaml_list):
 
 #### Chart
 
-<img src=https://github.com/lexra/pushing-wheelchair/assets/33512027/b328b9fa-5810-4a72-86a1-10fc212b2d52 width=640 />
+<img src=https://github.com/lexra/pushing-wheelchair/assets/33512027/fb56f7f2-d0e9-44b2-9d1d-66c8b12b1907 width=800 />
 
 #### mAP@0.50
 
@@ -260,7 +260,7 @@ pixmaps/push_wheelchair.jpg: Predicted in 16.136000 milli-seconds.
 push_wheelchair: 72%    (left_x:  241   top_y:   69   width:  682   height:  818)
 ```
 
-<img src=https://github.com/lexra/pushing-wheelchair/assets/33512027/d21cb12c-0ef4-4748-bfe6-cc1276514c9b width=600 />
+<img src=https://github.com/lexra/pushing-wheelchair/assets/33512027/d21cb12c-0ef4-4748-bfe6-cc1276514c9b width=800 />
 
 ### Using Darknet
 
