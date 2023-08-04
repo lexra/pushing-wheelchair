@@ -59,7 +59,8 @@ for filepath in tqdm(yaml_list):
 #### mAP@0.50
 
 ```bash
-[yolo] params: iou loss: ciou (4), iou_norm: 0.07, obj_norm: 1.00, cls_norm: 1.00, delta_norm: 1.00, scale_x_y: 1.00
+[yolo] params: iou loss: ciou (4), iou_norm: 0.07, obj_norm: 1.00, cls_norm: 1.00, delta_norm: 1.00, \
+	scale_x_y: 1.00
 Total BFLOPS 0.219
 avg_outputs = 60902
  Allocate additional workspace_size = 134.22 MB
