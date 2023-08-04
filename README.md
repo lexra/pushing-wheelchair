@@ -218,7 +218,8 @@ conv      8       3 x 3/ 2    320 x 320 x   1 ->  160 x 160 x   8 0.004 BF
  119 conv     96       1 x 1/ 1     10 x  10 x  96 ->   10 x  10 x  96 0.002 BF
  120 conv     30       1 x 1/ 1     10 x  10 x  96 ->   10 x  10 x  30 0.001 BF
  121 yolo
-[yolo] params: iou loss: ciou (4), iou_norm: 0.07, obj_norm: 1.00, cls_norm: 1.00, delta_norm: 1.00, scale_x_y: 1.00
+[yolo] params: iou loss: ciou (4), iou_norm: 0.07, obj_norm: 1.00, cls_norm: 1.00, delta_norm: 1.00, \
+	scale_x_y: 1.00
 nms_kind: greedynms (1), beta = 0.600000
  122 route  115                                            ->   10 x  10 x  96
  123 upsample                 2x    10 x  10 x  96 ->   20 x  20 x  96
@@ -229,7 +230,8 @@ nms_kind: greedynms (1), beta = 0.600000
  128 conv    120       1 x 1/ 1     20 x  20 x 120 ->   20 x  20 x 120 0.012 BF
  129 conv     30       1 x 1/ 1     20 x  20 x 120 ->   20 x  20 x  30 0.003 BF
  130 yolo
-[yolo] params: iou loss: ciou (4), iou_norm: 0.07, obj_norm: 1.00, cls_norm: 1.00, delta_norm: 1.00, scale_x_y: 1.00
+[yolo] params: iou loss: ciou (4), iou_norm: 0.07, obj_norm: 1.00, cls_norm: 1.00, delta_norm: 1.00, \
+	scale_x_y: 1.00
 nms_kind: greedynms (1), beta = 0.600000
 Total BFLOPS 0.219
 avg_outputs = 60902
