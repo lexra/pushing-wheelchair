@@ -244,7 +244,7 @@ push_wheelchair: 100%   (left_x:  136   top_y:   29   width:  181   height:  388
 wheelchair: 57% (left_x:  142   top_y:  100   width:  167   height:  311)
 ```
 
-<img src=https://github.com/lexra/pushing-wheelchair/assets/33512027/9b607f43-0fc5-4116-b1ac-813a56e29d41 width=480 />
+<img src=https://github.com/lexra/pushing-wheelchair/assets/33512027/d21cb12c-0ef4-4748-bfe6-cc1276514c9b width=480 />
 
 ### Using Darknet
 
