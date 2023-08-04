@@ -3,4 +3,3 @@ train=/work/himax/Yolo-Fastest/pushing-wheelchair/train.txt
 valid=/work/himax/Yolo-Fastest/pushing-wheelchair/test.txt
 names=/work/himax/Yolo-Fastest/pushing-wheelchair/cfg/yolo-wheelchair.names
 backup=/work/himax/Yolo-Fastest/pushing-wheelchair/backup
-eval=coco
