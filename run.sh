@@ -1,5 +1,7 @@
 #!/bin/bash -e
 
+sudo echo ''
+
 ##############################
 RED='\033[0;31m'
 YELLOW='\033[1;33m'
@@ -16,21 +18,21 @@ WIDTH=$(cat cfg/yolo-wheelchair.cfg | grep "^width" | awk -F '=' '{print $2}')
 HEIGHT=$(cat cfg/yolo-wheelchair.cfg | grep "^height" | awk -F '=' '{print $2}')
 
 ##############################
-if [ ! -e Images_RGB.zip ]; then
-	curl -L http://mobility-aids.informatik.uni-freiburg.de/dataset/Images_RGB.zip -o Images_RGB.zip
-	curl -L http://mobility-aids.informatik.uni-freiburg.de/dataset/Annotations_RGB.zip -o Annotations_RGB.zip
-	curl -L http://mobility-aids.informatik.uni-freiburg.de/dataset/Annotations_RGB_TestSet2.zip -o Annotations_RGB_TestSet2.zip
+if [ ! -e downloads/Images_RGB.zip ]; then
+	curl -L http://mobility-aids.informatik.uni-freiburg.de/dataset/Images_RGB.zip -o downloads/Images_RGB.zip
+	curl -L http://mobility-aids.informatik.uni-freiburg.de/dataset/Annotations_RGB.zip -o downloads/Annotations_RGB.zip
+	curl -L http://mobility-aids.informatik.uni-freiburg.de/dataset/Annotations_RGB_TestSet2.zip -o downloads/Annotations_RGB_TestSet2.zip
 fi
 
 ##############################
 sudo rm -rf images labels
 mkdir -p images
 mkdir -p labels
-unzip -o Annotations_RGB.zip -d labels | pv -l > /dev/null
-unzip -o Annotations_RGB_TestSet2.zip -d labels | pv -l > /dev/null
-unzip -o Images_RGB.zip -d images | pv -l > /dev/null
+unzip -o downloads/Annotations_RGB.zip -d labels | pv -l > /dev/null
+unzip -o downloads/Annotations_RGB_TestSet2.zip -d labels | pv -l > /dev/null
+unzip -o downloads/Images_RGB.zip -d images | pv -l > /dev/null
 
-sudo chmod -x images/Images_RGB
+chmod -x images/Images_RGB
 find images/Images_RGB -name "*.png" | xargs sudo chmod 666
 mv -fv images/Images_RGB images/train
 chmod 775 images/train
@@ -39,13 +41,14 @@ mv -fv labels/Annotations_RGB_TestSet2 labels/test
 
 ##############################
 python3 yaml2yolo.py
-cp -Rpf labels/train/*.txt images/train
+mkdir -p images/train && cp -Rpf labels/train/*.txt images/train
 
 ##############################
 mkdir -p images/test && cp -Rpf labels/test/*.txt images/test
 for P in `ls labels/test | awk -F '.txt' '{print $1}'`; do mv -f images/train/${P}.png images/test ; done
 
 ##############################
+rm -rf train.txt test.txt chart*.png anchors.txt counters_per_class.txt
 for J in $(ls images/train | grep txt | awk -F '.txt' '{print $1}'); do echo "$(pwd)/images/train/${J}.png" ; done | tee train.txt
 for J in $(ls images/test | grep txt | awk -F '.txt' '{print $1}'); do echo "$(pwd)/images/test/${J}.png" ; done | tee test.txt
 
@@ -68,29 +71,26 @@ echo -e "${YELLOW} ../darknet detector train cfg/${NAME}.data ${CFG} ${WEIGHTS} 
 
 ##############################
 if [ -e ../keras-YOLOv3-model-set/tools/model_converter/fastest_1.1_160/convert.py ]; then
-        git -C ../keras-YOLOv3-model-set checkout tools/model_converter/fastest_1.1_160/post_train_quant_convert_demo.py
-        sed "s|model_input_shape = \"160x160\"|model_input_shape = \"${WIDTH}x${HEIGHT}\"|" -i ../keras-YOLOv3-model-set/tools/model_converter/fastest_1.1_160/post_train_quant_convert_demo.py
-
-        echo ""
-        echo -e "${YELLOW} python3 ../keras-YOLOv3-model-set/tools/model_converter/fastest_1.1_160/convert.py --config_path cfg/${NAME}.cfg --weights_path backup/${NAME}_final.weights --output_path backup/${NAME}.h5 ${NC}"
-        rm -rf backup/${NAME}.h5
-        python3 ../keras-YOLOv3-model-set/tools/model_converter/fastest_1.1_160/convert.py \
-                --config_path cfg/${NAME}.cfg \
-                --weights_path backup/${NAME}_final.weights \
-                --output_path backup/${NAME}.h5 || true
-
-        echo ""
-        echo -e "${YELLOW} python3 ../keras-YOLOv3-model-set/tools/model_converter/fastest_1.1_160/post_train_quant_convert_demo.py --keras_model_file backup/${NAME}.h5 --annotation_file train.txt --output_file backup/${NAME}.tflite ${NC}"
+	git -C ../keras-YOLOv3-model-set checkout tools/model_converter/fastest_1.1_160/post_train_quant_convert_demo.py
+	sed "s|model_input_shape = \"160x160\"|model_input_shape = \"${WIDTH}x${HEIGHT}\"|" -i ../keras-YOLOv3-model-set/tools/model_converter/fastest_1.1_160/post_train_quant_convert_demo.py
+	echo ""
+	echo -e "${YELLOW}python3 ../keras-YOLOv3-model-set/tools/model_converter/fastest_1.1_160/convert.py --config_path cfg/${NAME}.cfg --weights_path backup/${NAME}_final.weights --output_path backup/${NAME}.h5 ${NC}"
+	rm -rf backup/${NAME}.h5
+	python3 ../keras-YOLOv3-model-set/tools/model_converter/fastest_1.1_160/convert.py \
+		--config_path cfg/${NAME}.cfg \
+		--weights_path backup/${NAME}_final.weights \
+		--output_path backup/${NAME}.h5 || true
+	echo ""
+	echo -e "${YELLOW}python3 ../keras-YOLOv3-model-set/tools/model_converter/fastest_1.1_160/post_train_quant_convert_demo.py --keras_model_file backup/${NAME}.h5 --annotation_file train.txt --output_file backup/${NAME}.tflite${NC}"
         [ -e backup/${NAME}.h5 ] && \
-                python3 ../keras-YOLOv3-model-set/tools/model_converter/fastest_1.1_160/post_train_quant_convert_demo.py \
-                --keras_model_file backup/${NAME}.h5 \
-                --annotation_file train.txt \
-                --output_file backup/${NAME}.tflite
-
+		python3 ../keras-YOLOv3-model-set/tools/model_converter/fastest_1.1_160/post_train_quant_convert_demo.py \
+		--keras_model_file backup/${NAME}.h5 \
+		--annotation_file train.txt \
+		--output_file backup/${NAME}.tflite
         echo ""
-        echo -e "${YELLOW} xxd -i backup/${NAME}.tflite > backup/${NAME}.cc ${NC}"
-        [ -e backup/${NAME}.tflite ] && \
-                xxd -i backup/${NAME}.tflite > backup/${NAME}.cc
+	echo -e "${YELLOW} xxd -i backup/${NAME}.tflite > backup/${NAME}.cc ${NC}"
+	[ -e backup/${NAME}.tflite ] && \
+		xxd -i backup/${NAME}.tflite > backup/${NAME}.cc
 fi
 
 ##############################
