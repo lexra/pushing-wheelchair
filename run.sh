@@ -9,7 +9,7 @@ GREEN='\033[0;32m'
 NC='\033[0m'
 
 ##############################
-NAME=yolo-wheelchair
+NAME=yolo-fastest
 CFG="cfg/${NAME}.cfg"
 GPUS="-gpus 0"
 WEIGHTS=""
@@ -25,7 +25,7 @@ if [ ! -e downloads/Images_RGB.zip ]; then
 fi
 
 ##############################
-sudo rm -rf images labels
+sudo rm -rf images labels train.txt test.txt anchors.txt counters_per_class.txt data
 mkdir -p images
 mkdir -p labels
 unzip -o downloads/Annotations_RGB.zip -d labels | pv -l > /dev/null
@@ -48,7 +48,6 @@ mkdir -p images/test && cp -Rpf labels/test/*.txt images/test
 for P in `ls labels/test | awk -F '.txt' '{print $1}'`; do mv -f images/train/${P}.png images/test ; done
 
 ##############################
-rm -rf train.txt test.txt chart*.png anchors.txt counters_per_class.txt
 for J in $(ls images/train | grep txt | awk -F '.txt' '{print $1}'); do echo "$(pwd)/images/train/${J}.png" ; done | tee train.txt
 for J in $(ls images/test | grep txt | awk -F '.txt' '{print $1}'); do echo "$(pwd)/images/test/${J}.png" ; done | tee test.txt
 
