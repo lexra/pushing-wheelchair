@@ -1,0 +1,5 @@
+classes=5
+train=/work/Yolo-Fastest/pushing-wheelchair/train.txt
+valid=/work/Yolo-Fastest/pushing-wheelchair/test.txt
+names=/work/Yolo-Fastest/pushing-wheelchair/cfg/yolov3-tiny.names
+backup=/work/Yolo-Fastest/pushing-wheelchair/backup
