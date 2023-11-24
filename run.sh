@@ -52,7 +52,7 @@ for J in $(ls images/train | grep txt | awk -F '.txt' '{print $1}'); do echo "$(
 for J in $(ls images/test | grep txt | awk -F '.txt' '{print $1}'); do echo "$(pwd)/images/test/${J}.png" ; done | tee test.txt
 
 ##############################
-sed "s|/work/himax/Yolo-Fastest/pushing-wheelchair|`pwd`|" -i cfg/${NAME}.data
+sed "s|/work/Yolo-Fastest/pushing-wheelchair|`pwd`|" -i cfg/${NAME}.data
 
 echo '' && echo -e "${YELLOW} echo '' | ../darknet detector calc_anchors cfg/${NAME}.data -num_of_clusters 6 -width ${WIDTH} -height ${HEIGHT} -dont_show ${NC}"
 echo '' | ../darknet detector calc_anchors cfg/${NAME}.data -num_of_clusters 6 -width ${WIDTH} -height ${HEIGHT} -dont_show

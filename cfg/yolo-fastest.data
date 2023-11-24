@@ -1,5 +1,5 @@
 classes=5
-train=/work/himax/Yolo-Fastest/pushing-wheelchair/train.txt
-valid=/work/himax/Yolo-Fastest/pushing-wheelchair/test.txt
-names=/work/himax/Yolo-Fastest/pushing-wheelchair/cfg/yolo-wheelchair.names
-backup=/work/himax/Yolo-Fastest/pushing-wheelchair/backup
+train=/work/Yolo-Fastest/pushing-wheelchair/train.txt
+valid=/work/Yolo-Fastest/pushing-wheelchair/test.txt
+names=/work/Yolo-Fastest/pushing-wheelchair/cfg/yolo-fatest.names
+backup=/work/Yolo-Fastest/pushing-wheelchair/backup
