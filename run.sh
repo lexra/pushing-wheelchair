@@ -14,8 +14,8 @@ CFG="cfg/${NAME}.cfg"
 GPUS="-gpus 0"
 WEIGHTS=""
 
-WIDTH=$(cat cfg/yolo-wheelchair.cfg | grep "^width" | awk -F '=' '{print $2}')
-HEIGHT=$(cat cfg/yolo-wheelchair.cfg | grep "^height" | awk -F '=' '{print $2}')
+WIDTH=$(cat ${CFG} | grep "^width" | awk -F '=' '{print $2}')
+HEIGHT=$(cat ${CFG} | grep "^height" | awk -F '=' '{print $2}')
 
 ##############################
 if [ ! -e downloads/Images_RGB.zip ]; then
@@ -101,6 +101,6 @@ echo -e "${YELLOW} ../darknet detector map cfg/${NAME}.data cfg/${NAME}.cfg back
 # g++ tests/opencv-camera/opencv-camera.cpp -o tests/opencv-camera/opencv-camera `pkg-config --cflags --libs opencv4`
 echo ""
 echo -e "${YELLOW} Detector Test: ${NC}"
-echo -e "${YELLOW} ../darknet detector test cfg/yolo-wheelchair.data cfg/yolo-wheelchair.cfg backup/yolo-wheelchair_final.weights pixmaps/push_wheelchair.jpg -ext_output -dont_show ${NC}"
+echo -e "${YELLOW} ../darknet detector test cfg/${NAME}.data cfg/${NAME}.cfg backup/${NAME}_final.weights pixmaps/push_wheelchair.jpg -ext_output -dont_show ${NC}"
 echo ""
 exit 0
